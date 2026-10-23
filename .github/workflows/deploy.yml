@@ -2,12 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
   workflow_dispatch:
 
 # One deployment at a time; a newer push waits rather than cancelling the running one.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -31,6 +33,7 @@ jobs:
           path: dist
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
