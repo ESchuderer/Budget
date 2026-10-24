@@ -1,0 +1,33 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "css": { "parser": { "tailwindDirectives": true } },
+  "linter": {
+    "rules": {
+      "preset": "none",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": { "level": "error", "options": { "maxAllowedComplexity": 15 } },
+        "useMaxParams": { "level": "error", "options": { "max": 5 } },
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": { "maxLines": 80, "skipBlankLines": true, "skipIifes": true }
+        }
+      },
+      "suspicious": { "noImportCycles": "error" }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.test.*", "**/*.spec.*", "**/test/**", "**/tests/**", "**/e2e/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "useMaxParams": "off",
+            "noExcessiveLinesPerFunction": "off"
+          }
+        }
+      }
+    }
+  ]
+}
