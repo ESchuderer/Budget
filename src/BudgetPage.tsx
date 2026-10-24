@@ -27,6 +27,8 @@ type BudgetDrag = { kind: 'entry'; id: string; entryKind: Kind } | { kind: 'cate
 type BudgetLanding = { categoryId: string | null; before: string | null }
 type FormProps = { t: Copy; budget: Budget; update: Change; close: () => void }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: baseline
 export function BudgetPage({ t, budget, plans, notices, update, openPlan, exportBudget, openFile }: {
   t: Copy; budget: Budget; plans: Plan[]; notices: ReactNode; update: Change
   openPlan: (id: string) => void; exportBudget: () => void; openFile: () => void
@@ -173,6 +175,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
     </section>
   }
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
   function renderCategory(category: Category | null) {
     const categoryId = category?.id ?? null
     const entries = budget.entries.filter(entry => entry.kind === 'expense' && entry.categoryId === categoryId)

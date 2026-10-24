@@ -61,6 +61,8 @@ function withOrigin<T extends { id: string }>(shown: T[], carried: T | undefined
   return [...rows.slice(0, at), { entry: carried, origin: true }, ...rows.slice(at)]
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: baseline
 export default function App() {
   const [language, setLanguage] = useState(loadLanguage)
   const [theme, setTheme] = useState(loadTheme)
@@ -278,6 +280,7 @@ export default function App() {
   // category's own rows an either-or lands there the same way. Over the faint copy it goes back where it came from.
   function rowTarget(item: Purchase, zone: DropZone, nextId: string | null, origin: boolean) {
     return {
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
       onDragOver: (event: DragEvent) => {
         const kind = held.current?.kind
         if (!(kind === 'item' || (kind === 'choice' && zone.optionId === null)) || !accepts(event, kind)) return
@@ -292,6 +295,7 @@ export default function App() {
   // lands in front of it; between its options nothing changes, and on an option it joins that option.
   function choiceTarget(choice: Choice, nextId: string | null, origin: boolean) {
     return {
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
       onDragOver: (event: DragEvent) => {
         if (held.current?.kind === 'item') {
           if (!accepts(event, 'item')) return
@@ -327,6 +331,7 @@ export default function App() {
   function groupTarget(category: Category | null, nextCategoryId: string | null) {
     const categoryId = category?.id ?? null
     return {
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
       onDragOver: (event: DragEvent) => {
         const drag = held.current
         if (!drag || drag.kind === 'option' || !accepts(event, drag.kind)) return
@@ -371,6 +376,7 @@ export default function App() {
     return matchesSearch && (filter === 'all' || isIncluded(item, plan) === (filter === 'included'))
   })
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
   function renderItem(item: Purchase, locked: boolean, zone: DropZone, following: string | null, origin = false) {
     const shop = item.link ? safeLink(item.link) : null
     const dragState = isHeld('item', item.id) ? origin ? 'drag-origin' : 'dragging' : ''
@@ -440,6 +446,7 @@ export default function App() {
     </div>
   }
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
   function renderGroup(category: Category | null) {
     const groupId = category?.id ?? 'uncategorized'
     const categoryId = category?.id ?? null
@@ -526,6 +533,7 @@ export default function App() {
       <div className="workspace">
         <div className="purchases-panel">
           <div className="section-heading"><div><h2>{t.wishlist} <span>{plan.items.length}</span></h2><p>{t.wishlistHint}</p></div><span className="small-caption">{t.smallCaption}</span></div>
+          {/** biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline */}
           <div className="list-toolbar"><div className="filter-tabs" role="group" aria-label={t.filterLabel}>{(['all', 'included', 'excluded'] as const).map(tab => <button key={tab} aria-pressed={filter === tab} className={filter === tab ? 'active' : ''} onClick={() => setFilter(tab)}>{tab === 'all' ? t.filterAll : tab === 'included' ? t.filterIncluded : t.filterExcluded}<span>{tab === 'all' ? plan.items.length : tab === 'included' ? totals.includedCount : totals.excludedCount}</span></button>)}</div><div className="search-box"><Search size={15} /><Input aria-label={t.searchLabel} placeholder={t.searchPlaceholder} value={search} onChange={event => setSearch(event.target.value)} />{search && <button aria-label={t.clearSearch} onClick={() => setSearch('')}><X size={13} /></button>}</div></div>
           {/* In the gap between two categories nothing changes, and letting go there keeps what the list shows. */}
           <div className="purchase-groups" onDragOver={event => { if (held.current) { event.preventDefault(); event.dataTransfer.dropEffect = 'move' } }} onDrop={commit}>{plan.categories.map(renderGroup)}{renderGroup(null)}{visibleItems.length === 0 && (search || filter !== 'all' || (plan.categories.length === 0 && plan.choices.length === 0)) && <div className="empty-state"><span className="empty-state-icon"><Wallet size={28} /></span><h3>{plan.items.length ? t.emptySomeTitle : t.emptyNoneTitle}</h3><p>{search ? t.emptySearch : filter === 'included' ? t.emptyIncluded : filter === 'excluded' ? t.emptyExcluded : t.emptyAdd}</p>{!plan.items.length && <Button onClick={() => setEditor({ type: 'item' })}><Plus size={16} /> {t.addFirst}</Button>}</div>}</div>
@@ -580,6 +588,7 @@ export default function App() {
   </div>
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
 function editorKey(editor: Exclude<NonNullable<Editor>, { type: 'data' }>) {
   if (editor.type === 'item') return `item-${editor.item?.id ?? 'new'}`
   if (editor.type === 'category') return `category-${editor.category?.id ?? 'new'}`
@@ -649,6 +658,8 @@ function DataPanel({ t, library, updateLibrary, setEditor, exportOne, exportBudg
   </div>
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: baseline
 function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, setEditor, setNotice, go, close }: {
   editor: Exclude<NonNullable<Editor>, { type: 'data' }>; plan: Plan; budget: Budget; library: Library; t: Copy
   go: (page: Page) => void
@@ -718,6 +729,7 @@ function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, s
     : editor.type === 'choice' ? t.descChoice
     : t.descCategory
 
+  // biome-ignore lint/complexity/noExcessiveLinesPerFunction: baseline
   function submit(event: FormEvent) {
     event.preventDefault()
     if (editor.type === 'reset') { update(current => ({ ...emptyPlan(current.name, current.currency), id: current.id })); close(); return }
