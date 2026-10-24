@@ -127,6 +127,7 @@ export type ExampleWords = { name: string; people: readonly [string, string]; en
 export function exampleBudget(words: ExampleWords, categoryNames: readonly string[]): Budget {
   const [housing, groceries, transport, insurance, health, subscriptions, leisure, other] = ['housing', 'groceries', 'transport', 'insurance', 'health', 'subscriptions', 'leisure', 'other']
   const categoryIds = [housing, groceries, transport, insurance, health, subscriptions, leisure, other]
+  // biome-ignore lint/complexity/useMaxParams: baseline
   const entry = (id: typeof exampleEntryIds[number], kind: Kind, amount: number, frequency: Frequency, categoryId: string | null, personId: string | null, fixed = true): Entry =>
     ({ id, kind, name: words.entries[id], amount, frequency, categoryId, personId, fixed, enabled: true, note: '' })
   return {

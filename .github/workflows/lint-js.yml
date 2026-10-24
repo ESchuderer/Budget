@@ -1,0 +1,18 @@
+name: Lint JS
+
+# Biome complexity limits, knip, jscpd and a TypeScript strictness gate, each with a baseline (ESchuderer/repo-baseline).
+on:
+  pull_request:
+  push:
+    branches: [develop]
+
+permissions: {}
+
+jobs:
+  lint-js:
+    permissions:
+      contents: read
+    uses: ESchuderer/repo-baseline/.github/workflows/lint-js.yml@ffb474ae6c4b16adbdc70a603474df57937464f8 # main after v0.1.0
+    with:
+      node-version: '22'
+      typecheck-command: sh scripts/tsc-baseline.sh tsconfig.strict.json tsc-baseline.txt
