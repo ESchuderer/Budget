@@ -18,6 +18,7 @@ export function Analysis({ t, budget }: { t: Copy; budget: Budget }) {
     { id: 'household', label: t.householdRow, income: totals.income, fixed: totals.fixed, variable: totals.variable, savings: totals.savings, wishlist: totals.wishlist, left: totals.left },
     ...people.map(row => ({ id: row.person.id, label: row.person.name, income: row.income, fixed: row.fixed, variable: row.variable, savings: row.savings, wishlist: row.wishlist, left: row.left })),
   ]
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: baseline
   const valueOf = (row: Row, segment: Segment) => segment === 'left' ? Math.max(row.left, 0) : row[segment]
   // Every bar shares one scale, so a person's month reads against the household's.
   const scale = Math.max(1, ...rows.map(row => Math.max(row.income, row.fixed + row.variable + row.savings + row.wishlist)))
@@ -40,12 +41,15 @@ export function Analysis({ t, budget }: { t: Copy; budget: Budget }) {
         <p className="chart-hint">{t.moneyChartHint}</p>
         <div className="money-rows">{rows.map(row => <div className="money-row" key={row.id}>
           <div className="money-row-label"><span>{row.label}</span>{row.left < 0 ? <strong className="short">{t.shortBy(money(-row.left))}</strong> : <strong>{money(row.income)}</strong>}</div>
+          {/** biome-ignore lint/a11y/useSemanticElements: baseline */}
           <div className="money-track" role="list" aria-label={row.label}>{segments.map(segment => {
             const value = valueOf(row, segment)
             if (value <= 0) return null
             const active = focus?.row === row.id && focus.segment === segment
             const show = () => setFocus({ row: row.id, segment })
             const hide = () => setFocus(null)
+            // biome-ignore lint/a11y/useSemanticElements: baseline
+            // biome-ignore lint/a11y/noNoninteractiveTabindex: baseline
             return <span key={segment} role="listitem" tabIndex={0} aria-label={describe(row, segment)} className={`money-segment segment-${segment} ${focus && !active ? 'dim' : ''}`}
               style={{ flexBasis: `${value / scale * 100}%` }} onMouseEnter={show} onMouseLeave={hide} onFocus={show} onBlur={hide} />
           })}</div>

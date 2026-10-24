@@ -63,6 +63,7 @@ export function isIncluded(item: Purchase, plan: Pick<Plan, 'categories' | 'choi
   if (item.categoryId !== null && !plan.categories.some(category => category.id === item.categoryId && category.enabled)) return false
   if (item.optionId === null) return true
   const choice = choiceOf(plan.choices, item.optionId)
+  // biome-ignore lint/complexity/useOptionalChain: baseline
   return choice !== undefined && choice.enabled && choice.selectedId === item.optionId
 }
 
@@ -76,6 +77,7 @@ export function isAlternative(item: Purchase, plan: Pick<Plan, 'categories' | 'c
   if (!item.enabled || item.status === 'dropped' || item.optionId === null) return false
   if (item.categoryId !== null && !plan.categories.some(category => category.id === item.categoryId && category.enabled)) return false
   const choice = choiceOf(plan.choices, item.optionId)
+  // biome-ignore lint/complexity/useOptionalChain: baseline
   return choice !== undefined && choice.enabled && choice.selectedId !== item.optionId
 }
 

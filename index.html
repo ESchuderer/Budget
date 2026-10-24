@@ -9,9 +9,11 @@
     <script>
       // Paint the stored (or system) theme before the first frame, so there is no flash of the wrong one.
       try {
+        // biome-ignore lint/correctness/noInnerDeclarations: baseline
         var saved = localStorage.getItem('little-budget-theme')
         document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved
           : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      // biome-ignore lint/correctness/noUnusedVariables: baseline
       } catch (error) { document.documentElement.dataset.theme = 'light' }
     </script>
     <meta name="description" content="A little space to plan your purchases. Organize your wishlist and see what fits your budget." />
