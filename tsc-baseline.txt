@@ -42,7 +42,7 @@ src/App.tsx: error TS18048: 'saved' is possibly 'undefined'.
 src/App.tsx: error TS2322: Type 'Budget | undefined' is not assignable to type 'Budget'.
 src/App.tsx: error TS2322: Type 'Budget | undefined' is not assignable to type 'Budget'.
 src/App.tsx: error TS2322: Type 'Plan | undefined' is not assignable to type 'Plan'.
-src/App.tsx: error TS2322: Type '{ name: string; color: string | undefined; id: string; enabled: boolean; }[]' is not assignable to type 'Category[]'.
+src/App.tsx: error TS2322: Type '{ id: string; enabled: boolean; name: string; color: string | undefined; }[]' is not assignable to type 'Category[]'.
 src/App.tsx: error TS2345: Argument of type 'Budget | undefined' is not assignable to parameter of type 'Budget'.
 src/App.tsx: error TS2345: Argument of type 'Budget | undefined' is not assignable to parameter of type 'Budget'.
 src/App.tsx: error TS2345: Argument of type 'Plan | undefined' is not assignable to parameter of type 'Pick<Plan, "categories" | "choices">'.
@@ -61,11 +61,11 @@ src/App.tsx: error TS2345: Argument of type 'Plan | undefined' is not assignable
 src/App.tsx: error TS2532: Object is possibly 'undefined'.
 src/App.tsx: error TS2532: Object is possibly 'undefined'.
 src/BudgetPage.tsx: error TS2322: Type 'string | undefined' is not assignable to type 'string'.
-src/BudgetPage.tsx: error TS2322: Type '{ name: string; color: string | undefined; id: string; enabled: boolean; }[]' is not assignable to type 'Category[]'.
+src/BudgetPage.tsx: error TS2322: Type '{ id: string; enabled: boolean; name: string; color: string | undefined; }[]' is not assignable to type 'Category[]'.
 src/lib/budget.test.ts: error TS18048: 'choice' is possibly 'undefined'.
 src/lib/budget.test.ts: error TS2345: Argument of type 'Choice | undefined' is not assignable to parameter of type 'Choice'.
-src/lib/budget.test.ts: error TS2345: Argument of type '{ options: Option[]; id?: string | undefined; name?: string | undefined; categoryId?: string | null | undefined; enabled?: boolean | undefined; selectedId?: string | null | undefined; }' is not assignable to parameter of type 'Choice'.
-src/lib/budget.test.ts: error TS2345: Argument of type '{ options: never[]; id?: string | undefined; name?: string | undefined; categoryId?: string | null | undefined; enabled?: boolean | undefined; selectedId?: string | null | undefined; }' is not assignable to parameter of type 'Choice'.
+src/lib/budget.test.ts: error TS2345: Argument of type '{ id?: string | undefined; name?: string | undefined; categoryId?: string | null | undefined; enabled?: boolean | undefined; selectedId?: string | null | undefined; options: Option[]; }' is not assignable to parameter of type 'Choice'.
+src/lib/budget.test.ts: error TS2345: Argument of type '{ id?: string | undefined; name?: string | undefined; categoryId?: string | null | undefined; enabled?: boolean | undefined; selectedId?: string | null | undefined; options: never[]; }' is not assignable to parameter of type 'Choice'.
 src/lib/budget.test.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/budget.test.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/budget.test.ts: error TS2532: Object is possibly 'undefined'.
@@ -99,8 +99,8 @@ src/lib/household.test.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/household.test.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/household.test.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/household.test.ts: error TS2532: Object is possibly 'undefined'.
-src/lib/household.ts: error TS2322: Type '{ id: `${string}-${string}-${string}-${string}-${string}`; name: string; color: "sage" | "peach" | "blue" | "lavender" | "yellow" | undefined; enabled: true; }[]' is not assignable to type 'Category[]'.
-src/lib/household.ts: error TS2322: Type '{ id: string; name: string; color: "sage" | "peach" | "blue" | "lavender" | "yellow" | undefined; enabled: true; }[]' is not assignable to type 'Category[]'.
+src/lib/household.ts: error TS2322: Type '{ id: `${string}-${string}-${string}-${string}-${string}`; name: string; color: "blue" | "lavender" | "peach" | "sage" | "yellow" | undefined; enabled: true; }[]' is not assignable to type 'Category[]'.
+src/lib/household.ts: error TS2322: Type '{ id: string; name: string; color: "blue" | "lavender" | "peach" | "sage" | "yellow" | undefined; enabled: true; }[]' is not assignable to type 'Category[]'.
 src/lib/household.ts: error TS2532: Object is possibly 'undefined'.
 src/lib/library.ts: error TS2322: Type 'string | undefined' is not assignable to type 'string'.
 src/lib/library.ts: error TS2322: Type 'string | undefined' is not assignable to type 'string'.
