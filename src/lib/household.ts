@@ -68,7 +68,9 @@ export function splitByPerson(budget: Budget) {
     const target = (entry.personId !== null && own.get(entry.personId)) || shared
     target[bucketOf(entry)] += monthly(entry)
   }
+  // biome-ignore lint/style/noNonNullAssertion: baseline
   const earned = people.reduce((sum, person) => sum + own.get(person.id)!.income, 0)
+  // biome-ignore lint/style/noNonNullAssertion: baseline
   const shares = people.map(person => budget.split === 'income' && earned > 0 ? own.get(person.id)!.income / earned : 1 / people.length)
   // Whole cents for everyone; the last person takes the rounding so nothing is lost or made up.
   const portion = (total: number, index: number) => index < people.length - 1
@@ -76,6 +78,7 @@ export function splitByPerson(budget: Budget) {
     : total - shares.slice(0, -1).reduce((sum, share) => sum + Math.round(total * share), 0)
   const wishlist = budget.wishlist.mode === 'fixed' ? budget.wishlist.amount : 0
   return people.map((person, index) => {
+    // biome-ignore lint/style/noNonNullAssertion: baseline
     const mine = own.get(person.id)!
     const part = (key: keyof Buckets) => mine[key] + portion(shared[key], index)
     const row = { person, share: shares[index], income: part('income'), fixed: part('fixed'), variable: part('variable'), savings: part('savings'), wishlist: portion(wishlist, index) }

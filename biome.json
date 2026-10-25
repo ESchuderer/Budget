@@ -1,10 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "css": { "parser": { "tailwindDirectives": true } },
   "linter": {
     "rules": {
-      "preset": "none",
+      "preset": "recommended",
       "complexity": {
         "noExcessiveCognitiveComplexity": { "level": "error", "options": { "maxAllowedComplexity": 15 } },
         "useMaxParams": { "level": "error", "options": { "max": 5 } },
@@ -25,7 +25,8 @@
             "noExcessiveCognitiveComplexity": "off",
             "useMaxParams": "off",
             "noExcessiveLinesPerFunction": "off"
-          }
+          },
+          "style": { "noNonNullAssertion": "off" }
         }
       }
     }

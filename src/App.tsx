@@ -383,6 +383,7 @@ export default function App() {
     return <div className={`purchase-row ${isIncluded(item, plan) ? '' : 'excluded'} ${dragState}`} key={item.id} aria-hidden={origin || undefined}
       {...rowTarget(item, zone, following, origin)} {...dragSource({ kind: 'item', id: item.id })}>
       <Switch checked={item.enabled} disabled={locked} onCheckedChange={enabled => update(p => ({ ...p, items: p.items.map(i => i.id === item.id ? { ...i, enabled } : i) }))} aria-label={t.includeItem(item.name)} />
+      {/** biome-ignore lint/a11y/useButtonType: baseline */}
       <button className="purchase-details" onClick={() => setEditor({ type: 'item', item })}>
         <span className="purchase-name"><span className="purchase-title">{item.name}</span><span className={`priority-pill priority-${item.priority}`}>{t.priorityNames[item.priority]}</span>{item.status !== 'planned' && <span className={`status-pill status-${item.status}`}>{t.statusNames[item.status]}</span>}</span>
         {(item.note || item.quantity > 1) && <span className="purchase-note">{item.quantity > 1 ? t.perPiece(item.quantity, money(item.amount)) : ''}{item.note && item.quantity > 1 ? ' · ' : ''}{item.note}</span>}
@@ -409,6 +410,7 @@ export default function App() {
     const dragState = isHeld('choice', choice.id) ? origin ? 'drag-origin' : 'dragging' : ''
     // The faint copy left behind is drawn next to the real one, so its options need ids of their own.
     const optionKey = (option: Option) => `${origin ? 'origin-' : ''}option-${option.id}`
+    // biome-ignore lint/a11y/useSemanticElements: baseline
     return <div className={`choice-block ${choice.enabled ? '' : 'choice-off'} ${dragState}`} key={choice.id} role="group" aria-label={t.choiceGroup(choice.name)} aria-hidden={origin || undefined}
       {...choiceTarget(choice, following, origin)}>
       <div className="choice-heading" {...dragSource({ kind: 'choice', id: choice.id })}>
@@ -438,6 +440,7 @@ export default function App() {
             <div className="option-items">
               {rows.map((row, position) => renderItem(row.entry, locked || !picked, zone, nextId(rows, position), row.origin))}
               {!rows.length && <p className="empty-category">{t.nothingHereYet}</p>}
+              {/** biome-ignore lint/a11y/useButtonType: baseline */}
               <button className="add-in-group" onClick={() => setEditor({ type: 'item', categoryId: choice.categoryId, optionId: option.id })}><Plus size={15} /> {t.addToOption(option.label)}</button>
             </div>
           </div>
@@ -470,6 +473,7 @@ export default function App() {
       {...groupTarget(category, nextCategoryId)}>
       <div className="group-heading" {...(category ? dragSource({ kind: 'category', id: category.id }) : {})}>
         {category && <GripVertical size={14} className="drag-grip" aria-hidden />}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="group-title" onClick={() => setCollapsed(current => current.includes(groupId) ? current.filter(id => id !== groupId) : [...current, groupId])} aria-expanded={!isCollapsed}>
           <span className={`category-icon color-${category?.color ?? 'neutral'}`}>{category ? <Leaf size={17} /> : <Wallet size={17} />}</span>
           <h3>{category?.name ?? t.uncategorized}</h3><span className="count">{allItems.length}</span><ChevronDown size={15} className={isCollapsed ? 'collapsed-chevron' : ''} />
@@ -487,7 +491,9 @@ export default function App() {
           : renderChoice(row.entry.choice, locked, nextId(blocks, position), row.origin))}
         {!blocks.length && <p className="empty-category">{t.freshCategory}</p>}
         <div className="group-add">
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button className="add-in-group" onClick={() => setEditor({ type: 'item', categoryId })}><Plus size={15} /> {t.addItem}</button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button className="add-in-group" onClick={() => setEditor({ type: 'choice', categoryId })}><Shuffle size={14} /> {t.addChoice}</button>
         </div>
       </div>}
@@ -496,6 +502,7 @@ export default function App() {
 
   const notices = <>
     {storageError && <div className="storage-warning" role="alert">{storageError === 'load' ? t.loadFailed : t.saveFailed}</div>}
+    {/** biome-ignore lint/a11y/useButtonType: baseline */}
     {notice && <div className={`plan-notice ${notice.tone}`} data-testid="notice" role={notice.tone === 'error' ? 'alert' : 'status'}>{notice.text}<button aria-label={t.dismiss} onClick={() => setNotice(null)}><X size={14} /></button></div>}
   </>
 
@@ -503,6 +510,7 @@ export default function App() {
     <header className="site-header"><div className="header-inner">
       <a href="./" className="brand"><span className="brand-mark"><Leaf size={22} /></span>little budget<span className="brand-dot">.</span></a>
       <div className="plan-switcher">
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <nav className="page-tabs" aria-label={t.navLabel}>{(['budget', 'wishlist'] as const).map(target => <button key={target} className={page === target ? 'active' : ''} aria-current={page === target ? 'page' : undefined} onClick={() => go(target)}>
           {target === 'wishlist' ? <ShoppingBag size={14} /> : <PiggyBank size={14} />}<span>{target === 'wishlist' ? t.navWishlist : t.navBudget}</span>
         </button>)}</nav>
@@ -515,10 +523,14 @@ export default function App() {
             <SelectTrigger aria-label={t.switchPlan} className="plan-select"><SelectValue /></SelectTrigger>
             <SelectContent>{library.plans.map(candidate => <SelectItem key={candidate.id} value={candidate.id}>{candidate.name}</SelectItem>)}</SelectContent>
           </Select>}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="icon-button" aria-label={t.yourData} onClick={() => setEditor({ type: 'data' })}><Database size={16} /></button>
       </div>
       <div className="header-controls">
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="icon-button" aria-label={theme === 'dark' ? t.toLightMode : t.toDarkMode} onClick={() => chooseTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}</button>
+        {/** biome-ignore lint/a11y/useSemanticElements: baseline */}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <div className="language-toggle" role="group" aria-label={t.languageLabel}>{languages.map(code => <button key={code} aria-pressed={language === code} className={language === code ? 'active' : ''} onClick={() => chooseLanguage(code)}>{code.toUpperCase()}</button>)}</div>
         <span className="saved-status"><span className={storageError ? 'status-dot error-dot' : 'status-dot'} />{storageError ? t.notSaved : t.saved}</span>
       </div>
@@ -529,26 +541,33 @@ export default function App() {
         exportBudget={() => exportOneBudget(budget)} openFile={() => fileInput.current?.click()} /> : <>
       <div className="page-intro"><div><div className="eyebrow"><span /> {t.eyebrow}</div><h1>{t.titleLead} <span>{t.titleAccent}</span></h1><p>{t.intro}</p></div><div className="intro-actions"><Button variant="outline" onClick={() => setEditor({ type: 'category' })}><FolderPlus size={16} /> {t.newCategory}</Button><Button variant="outline" onClick={() => setEditor({ type: 'choice' })}><Shuffle size={15} /> {t.newChoice}</Button><Button onClick={() => setEditor({ type: 'item' })}><Plus size={17} /> {t.addPurchase}</Button></div></div>
       {notices}
+      {/** biome-ignore lint/a11y/useButtonType: baseline */}
       {plan.example && <div className="example-banner"><div><Sparkles size={17} /><span>{t.exampleBanner}</span></div><button onClick={() => setEditor({ type: 'reset' })}>{t.startFresh} <ArrowUpRight size={15} /></button></div>}
       <div className="workspace">
         <div className="purchases-panel">
           <div className="section-heading"><div><h2>{t.wishlist} <span>{plan.items.length}</span></h2><p>{t.wishlistHint}</p></div><span className="small-caption">{t.smallCaption}</span></div>
           {/** biome-ignore lint/complexity/noExcessiveCognitiveComplexity: baseline */}
+          {/** biome-ignore lint/a11y/useSemanticElements: baseline */}
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <div className="list-toolbar"><div className="filter-tabs" role="group" aria-label={t.filterLabel}>{(['all', 'included', 'excluded'] as const).map(tab => <button key={tab} aria-pressed={filter === tab} className={filter === tab ? 'active' : ''} onClick={() => setFilter(tab)}>{tab === 'all' ? t.filterAll : tab === 'included' ? t.filterIncluded : t.filterExcluded}<span>{tab === 'all' ? plan.items.length : tab === 'included' ? totals.includedCount : totals.excludedCount}</span></button>)}</div><div className="search-box"><Search size={15} /><Input aria-label={t.searchLabel} placeholder={t.searchPlaceholder} value={search} onChange={event => setSearch(event.target.value)} />{search && <button aria-label={t.clearSearch} onClick={() => setSearch('')}><X size={13} /></button>}</div></div>
           {/* In the gap between two categories nothing changes, and letting go there keeps what the list shows. */}
+          {/** biome-ignore lint/a11y/noStaticElementInteractions: baseline */}
           <div className="purchase-groups" onDragOver={event => { if (held.current) { event.preventDefault(); event.dataTransfer.dropEffect = 'move' } }} onDrop={commit}>{plan.categories.map(renderGroup)}{renderGroup(null)}{visibleItems.length === 0 && (search || filter !== 'all' || (plan.categories.length === 0 && plan.choices.length === 0)) && <div className="empty-state"><span className="empty-state-icon"><Wallet size={28} /></span><h3>{plan.items.length ? t.emptySomeTitle : t.emptyNoneTitle}</h3><p>{search ? t.emptySearch : filter === 'included' ? t.emptyIncluded : filter === 'excluded' ? t.emptyExcluded : t.emptyAdd}</p>{!plan.items.length && <Button onClick={() => setEditor({ type: 'item' })}><Plus size={16} /> {t.addFirst}</Button>}</div>}</div>
           {plan.items.length > 0 && <div className="list-footer"><span><Check size={14} /> {t.footerCount(totals.includedCount, plan.items.length)}</span><span>{t.footerNote}</span></div>}
         </div>
         <aside className="budget-sidebar" aria-label={t.budgetSummary}>
           <p className="sr-only" role="status">{hasBudget ? t.srTotals(money(totals.planned), money(totals.remaining)) : t.srTotalOnly(money(totals.planned))}</p>
           <div className={`budget-card ${hasBudget ? '' : 'no-budget'}`}>
+            {/** biome-ignore lint/a11y/useButtonType: baseline */}
             <div className="budget-card-heading"><span><Wallet size={17} /> {hasBudget ? t.yourBudget : t.totalHeading}</span><button aria-label={t.editBudgetLabel} onClick={() => setEditor({ type: 'budget' })}><Pencil size={15} /></button></div>
             {hasBudget ? <>
+              {/** biome-ignore lint/a11y/useButtonType: baseline */}
               <button className="budget-value" aria-label={t.budgetValueLabel(money(plan.budget))} onClick={() => setEditor({ type: 'budget' })}>{money(plan.budget)}<span className="currency-pill">{plan.currency} <ChevronDown size={12} /></span></button>
               <div className="budget-divider" />
               <div className={`budget-ring ${totals.remaining < 0 ? 'over-budget' : ''}`} style={{ '--progress': `${percentage}%` } as React.CSSProperties}><div className="ring-center"><span className="ring-label">{totals.remaining < 0 ? t.overBudget : t.leftToSpend}</span><strong data-testid="remaining">{money(Math.abs(totals.remaining))}</strong><span className="ring-caption">{totals.remaining < 0 ? t.findBalance : t.breathingRoom}</span></div></div>
               <div className={`budget-status ${totals.remaining < 0 ? 'over' : ''}`} aria-live="polite">{totals.remaining < 0 ? <ArrowUpRight size={14} /> : <Check size={14} />}{totals.remaining < 0 ? t.overBy(money(-totals.remaining)) : totals.remaining === 0 ? t.perfectFit : t.withinBudget}</div>
             </> : <>
+              {/** biome-ignore lint/a11y/useButtonType: baseline */}
               <button className="budget-value" aria-label={t.editTotalLabel(money(totals.planned))} onClick={() => setEditor({ type: 'budget' })}><span data-testid="total">{money(totals.planned)}</span><span className="currency-pill">{plan.currency} <ChevronDown size={12} /></span></button>
               <p className="total-caption">{t.totalCaption}</p>
               <div className="budget-divider" />
@@ -565,15 +584,20 @@ export default function App() {
             <div className="budget-card-heading"><span><PiggyBank size={17} /> {t.fundingTitle}</span></div>
             <p className="funding-rate">{t.fundingRate(formatMoney(household.forWishlist, budget.currency, t.locale), budget.wishlist.mode === 'fixed')}</p>
             <p className="funding-months">{toBuy <= 0 ? t.fundingDone : months === null ? t.fundingNever : t.fundingMonths(months, money(toBuy))}</p>
+            {/** biome-ignore lint/a11y/useButtonType: baseline */}
             <button className="funding-link" onClick={() => go('budget')}>{t.openBudgetNamed(budget.name)} <ArrowUpRight size={13} /></button>
           </div>
           <div className="tip-card"><span className="tip-icon"><CircleHelp size={18} /></span><div><h3>{t.tipTitle}</h3><p>{t.tipText}</p><p>{t.dragHint}</p></div></div>
           <div className="privacy-note"><ShieldCheck size={15} /><span>{t.privacy}</span></div>
           <div className="plan-actions">
+            {/** biome-ignore lint/a11y/useButtonType: baseline */}
             <button onClick={() => exportOnePlan(plan)}><Download size={13} /> {t.exportPlan}</button>
+            {/** biome-ignore lint/a11y/useButtonType: baseline */}
             <button onClick={() => fileInput.current?.click()}><Upload size={13} /> {t.importPlan}</button>
+            {/** biome-ignore lint/a11y/useButtonType: baseline */}
             <button onClick={() => setEditor({ type: 'data' })}><Database size={13} /> {t.yourData}</button>
           </div>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           {(plan.items.length > 0 || plan.categories.length > 0 || plan.choices.length > 0 || plan.budget > 0) && <button className="reset-link" onClick={() => setEditor({ type: 'reset' })}>{t.resetPlan}</button>}
         </aside>
       </div></>}
@@ -614,17 +638,22 @@ function DataPanel({ t, library, updateLibrary, setEditor, exportOne, exportBudg
     <ul className="plan-list">{library.budgets.map(entry => {
       const active = entry.id === library.activeBudgetId
       return <li className={active ? 'plan-entry active' : 'plan-entry'} key={entry.id}>
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="plan-open" aria-label={t.openPlan(entry.name)} onClick={() => { updateLibrary(current => ({ ...current, activeBudgetId: entry.id })); go('budget'); setEditor(null) }}>
           <span className="plan-name">{entry.name}{active && <span className="plan-badge">{t.openNow}</span>}</span>
           <span className="plan-meta">{t.budgetMeta(entry.entries.length, formatMoney(summarizeBudget(entry).left, entry.currency, t.locale))}</span>
         </button>
         <div className="plan-entry-actions">
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.exportOne(entry.name)} onClick={() => exportBudget(entry)}><Download size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.duplicatePlan(entry.name)} onClick={() => updateLibrary(current => {
             const clone = { ...structuredClone(entry), id: crypto.randomUUID(), name: t.copyOfPlan(entry.name), example: false }
             return { ...current, budgets: [...current.budgets, clone], activeBudgetId: clone.id }
           })}><CopyIcon size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.renamePlan(entry.name)} onClick={() => setEditor({ type: 'budgetName', target: entry })}><Pencil size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.deletePlan(entry.name)} disabled={library.budgets.length === 1} title={library.budgets.length === 1 ? t.onlyBudget : undefined} onClick={() => setEditor({ type: 'budgetDelete', target: entry })}><Trash2 size={15} /></button>
         </div>
       </li>
@@ -634,17 +663,22 @@ function DataPanel({ t, library, updateLibrary, setEditor, exportOne, exportBudg
       const totals = summarize(entry)
       const active = entry.id === library.activeId
       return <li className={active ? 'plan-entry active' : 'plan-entry'} key={entry.id}>
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="plan-open" aria-label={t.openPlan(entry.name)} onClick={() => { updateLibrary(current => ({ ...current, activeId: entry.id })); go('wishlist'); setEditor(null) }}>
           <span className="plan-name">{entry.name}{active && <span className="plan-badge">{t.openNow}</span>}</span>
           <span className="plan-meta">{t.planSummary(entry.items.length, formatMoney(totals.planned, entry.currency, t.locale))}</span>
         </button>
         <div className="plan-entry-actions">
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.exportOne(entry.name)} onClick={() => exportOne(entry)}><Download size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.duplicatePlan(entry.name)} onClick={() => updateLibrary(current => {
             const clone = { ...structuredClone(entry), id: crypto.randomUUID(), name: t.copyOfPlan(entry.name), example: false }
             return { ...current, plans: [...current.plans, clone], activeId: clone.id }
           })}><CopyIcon size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.renamePlan(entry.name)} onClick={() => setEditor({ type: 'plan', target: entry })}><Pencil size={15} /></button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button aria-label={t.deletePlan(entry.name)} disabled={library.plans.length === 1} title={library.plans.length === 1 ? t.onlyPlan : undefined} onClick={() => setEditor({ type: 'planDelete', target: entry })}><Trash2 size={15} /></button>
         </div>
       </li>
@@ -785,6 +819,7 @@ function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, s
     if (needsName && !name.trim()) { setError(t.errorName); return }
     if (editor.type === 'plan') {
       const trimmed = name.trim()
+      // biome-ignore lint/style/noNonNullAssertion: baseline
       if (editor.target) updateLibrary(current => ({ ...current, plans: current.plans.map(entry => entry.id === editor.target!.id ? { ...entry, name: trimmed, example: false } : entry) }))
       else updateLibrary(current => {
         const created = emptyPlan(trimmed, plan.currency)
@@ -795,6 +830,7 @@ function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, s
     }
     if (editor.type === 'budgetName') {
       const trimmed = name.trim()
+      // biome-ignore lint/style/noNonNullAssertion: baseline
       if (editor.target) updateLibrary(current => ({ ...current, budgets: current.budgets.map(entry => entry.id === editor.target!.id ? { ...entry, name: trimmed, example: false } : entry) }))
       else updateLibrary(current => {
         const created = starterBudget(trimmed, t.budgetCategories, budget.currency)
@@ -805,6 +841,7 @@ function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, s
     }
     if (editor.type === 'category') {
       if (plan.categories.some(c => c.id !== editor.category?.id && c.name.toLowerCase() === name.trim().toLowerCase())) { setError(t.errorCategoryExists); return }
+      // biome-ignore lint/style/noNonNullAssertion: baseline
       update(p => ({ ...p, categories: editor.category ? p.categories.map(c => c.id === editor.category!.id ? { ...c, name: name.trim(), color } : c) : [...p.categories, { id: crypto.randomUUID(), name: name.trim(), color, enabled: true }] }))
     } else if (editor.type === 'choice') {
       const trimmed = options.map(option => ({ ...option, label: option.label.trim() }))
@@ -888,6 +925,7 @@ function EditorForm({ editor, plan, budget, library, t, update, updateLibrary, s
         <Button type="button" variant="ghost" size="icon" className="small-icon" aria-label={t.removeOption(index + 1)} disabled={options.length <= 2} onClick={() => setOptions(current => current.filter(o => o.id !== option.id))}><X size={16} /></Button>
       </div>)}<button type="button" className="add-option" onClick={() => setOptions(current => [...current, { id: crypto.randomUUID(), label: '' }])}><Plus size={15} /> {t.addOption}</button></div></div>
       <p className="field-hint">{editor.choice ? t.hintChoiceEdit : t.hintChoiceNew}</p></>}
+    {/** biome-ignore lint/a11y/useSemanticElements: baseline */}
     {editor.type === 'category' && <><div className="field"><Label>{t.labelColor}</Label><div className="color-picker" role="group" aria-label={t.labelColor}>{colors.map(c => <button key={c} type="button" className={`color-option color-${c} ${color === c ? 'selected' : ''}`} aria-label={t.colorNames[c]} aria-pressed={color === c} onClick={() => setColor(c)}>{color === c && <Check size={18} />}</button>)}</div></div>{editor.category && <p className="field-hint">{t.hintCategoryDelete}</p>}</>}
     {contents && contents.items + contents.choices > 0 && <label className="check-field">
       <input type="checkbox" checked={withContents} onChange={event => setWithContents(event.target.checked)} />
