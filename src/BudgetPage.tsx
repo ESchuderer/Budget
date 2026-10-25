@@ -148,6 +148,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
       {...dragSource({ kind: 'entry', id: entry.id, entryKind: entry.kind })} {...entryTarget(entry, nextId)}>
       <Switch checked={entry.enabled} disabled={locked} aria-label={t.includeItem(entry.name)}
         onCheckedChange={enabled => update(current => ({ ...current, entries: current.entries.map(candidate => candidate.id === entry.id ? { ...candidate, enabled } : candidate) }))} />
+      {/** biome-ignore lint/a11y/useButtonType: baseline */}
       <button className="purchase-details" onClick={edit}>
         <span className="purchase-name"><span className="purchase-title">{entry.name}</span>
           {entry.kind === 'expense' && entry.fixed && <span className="priority-pill priority-medium">{t.fixedPill}</span>}
@@ -170,6 +171,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
       <div className={`group-content no-heading ${landsHere ? 'drop-active' : ''} ${landsHere && landing?.before === null ? 'drop-end' : ''}`}>
         {entries.map((entry, index) => renderEntry(entry, false, entries[index + 1]?.id ?? null))}
         {!entries.length && <p className="empty-category">{kind === 'income' ? t.noIncome : t.noSavings}</p>}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="add-in-group" onClick={() => setEditor({ type: 'entry', kind })}><Plus size={15} /> {kind === 'income' ? t.addIncome : t.addSaving}</button>
       </div>
     </section>
@@ -195,6 +197,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
       {...categoryTarget(category, nextCategoryId)}>
       <div className="group-heading" {...(category ? dragSource({ kind: 'category', id: category.id }) : {})}>
         {category && <GripVertical size={14} className="drag-grip" aria-hidden />}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="group-title" onClick={() => setCollapsed(current => current.includes(groupId) ? current.filter(id => id !== groupId) : [...current, groupId])} aria-expanded={!isCollapsed}>
           <span className={`category-icon color-${category?.color ?? 'neutral'}`}>{category ? <Leaf size={17} /> : <Wallet size={17} />}</span>
           <h3>{category?.name ?? t.uncategorized}</h3><span className="count">{entries.length}</span><ChevronDown size={15} className={isCollapsed ? 'collapsed-chevron' : ''} />
@@ -208,6 +211,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
       {!isCollapsed && <div className={`group-content ${landsHere ? 'drop-active' : ''} ${landsHere && landing?.before === null ? 'drop-end' : ''}`}>
         {entries.map((entry, position) => renderEntry(entry, locked, entries[position + 1]?.id ?? null))}
         {!entries.length && <p className="empty-category">{t.emptyBudgetCategory}</p>}
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         <button className="add-in-group" onClick={() => setEditor({ type: 'entry', kind: 'expense', categoryId })}><Plus size={15} /> {t.addExpense}</button>
       </div>}
     </section>
@@ -224,6 +228,7 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
       </div>
     </div>
     {notices}
+    {/** biome-ignore lint/a11y/useButtonType: baseline */}
     {budget.example && <div className="example-banner"><div><Sparkles size={17} /><span>{t.exampleBudgetBanner}</span></div><button onClick={() => setEditor({ type: 'reset' })}>{t.startFresh} <ArrowUpRight size={15} /></button></div>}
     <div className="workspace">
       <div className="purchases-panel">
@@ -249,10 +254,12 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
           </div>
         </div>
         <div className="funding-card">
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <div className="budget-card-heading"><span><PiggyBank size={17} /> {t.fundingCardTitle}</span><button aria-label={t.editFunding} onClick={() => setEditor({ type: 'funding' })}><Pencil size={15} /></button></div>
           <p className="funding-mode">{t.fundingModes[budget.wishlist.mode]}<strong data-testid="for-wishlist">{t.perMonth(money(totals.forWishlist))}</strong></p>
           <ul className="funding-plans">{plans.map(plan => {
             const cost = stillToBuy(plan)
+            // biome-ignore lint/a11y/useButtonType: baseline
             return <li key={plan.id}><button onClick={() => openPlan(plan.id)}>
               <span className="funding-plan-name">{plan.name}</span>
               <span className="funding-plan-meta">{formatMoney(cost, plan.currency, t.locale)} · {t.planMonths(monthsToAfford(cost, totals.forWishlist))}</span>
@@ -261,9 +268,12 @@ export function BudgetPage({ t, budget, plans, notices, update, openPlan, export
         </div>
         <div className="privacy-note"><ShieldCheck size={15} /><span>{t.privacy}</span></div>
         <div className="plan-actions">
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button onClick={exportBudget}><Download size={13} /> {t.exportBudget}</button>
+          {/** biome-ignore lint/a11y/useButtonType: baseline */}
           <button onClick={openFile}><Upload size={13} /> {t.importFile}</button>
         </div>
+        {/** biome-ignore lint/a11y/useButtonType: baseline */}
         {(budget.entries.length > 0 || budget.people.length > 0) && <button className="reset-link" onClick={() => setEditor({ type: 'reset' })}>{t.resetBudget}</button>}
       </aside>
     </div>
@@ -365,6 +375,7 @@ function CategoryForm({ category, t, budget, update, close }: FormProps & { cate
     <DialogHeader><DialogTitle>{category ? t.titleCategoryEdit : t.titleBudgetCategoryNew}</DialogTitle><DialogDescription>{t.descBudgetCategory}</DialogDescription></DialogHeader>
     <div className="editor-fields">
       <div className="field"><Label htmlFor="category-name">{t.labelCategoryName}</Label><Input id="category-name" placeholder={t.placeholderBudgetCategory} value={name} onChange={event => setName(event.target.value)} maxLength={100} autoFocus required /></div>
+      {/** biome-ignore lint/a11y/useSemanticElements: baseline */}
       <div className="field"><Label>{t.labelColor}</Label><div className="color-picker" role="group" aria-label={t.labelColor}>{colors.map(c => <button key={c} type="button" className={`color-option color-${c} ${color === c ? 'selected' : ''}`} aria-label={t.colorNames[c]} aria-pressed={color === c} onClick={() => setColor(c)}>{color === c && <Check size={18} />}</button>)}</div></div>
       {category && <p className="field-hint">{t.hintBudgetCategoryDelete}</p>}
       {error && <p className="form-error" role="alert">{error}</p>}

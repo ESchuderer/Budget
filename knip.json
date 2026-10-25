@@ -1,18 +1,18 @@
 {
-  "$schema": "https://unpkg.com/knip@6.41.0/schema.json",
+  "$schema": "./node_modules/knip/schema.json",
   "rules": {
-    "files": "warn",
+    "files": "error",
     "dependencies": "warn",
-    "devDependencies": "warn",
-    "optionalPeerDependencies": "warn",
-    "unlisted": "warn",
-    "binaries": "warn",
-    "unresolved": "warn",
+    "devDependencies": "error",
+    "optionalPeerDependencies": "error",
+    "unlisted": "error",
+    "binaries": "error",
+    "unresolved": "error",
     "exports": "warn",
-    "types": "warn",
-    "nsExports": "warn",
-    "nsTypes": "warn",
-    "enumMembers": "warn",
-    "duplicates": "warn"
+    "types": "error",
+    "nsExports": "error",
+    "nsTypes": "error",
+    "enumMembers": "error",
+    "duplicates": "error"
   }
 }
